@@ -1,0 +1,722 @@
+:host {
+  display: block;
+}
+
+.deck-editor {
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 0 24px;
+  background-color: var(--menu-background);
+  color: var(--text-color);
+  border: 2px solid var(--title-color);
+  border-radius: 8px;
+}
+
+h2 {
+  color: #ffffff;
+  font-family: 'Pirata One', cursive;
+  font-size: 2em;
+  font-weight: normal;
+  text-align: center;
+  padding: 16px 0;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid rgba(246, 215, 74, 0.3);
+}
+
+h2[mat-dialog-title] {
+  color: #f6d74a !important; /* Usar !important para sobrescribir cualquier otro estilo */
+  font-family: 'Pirata One', cursive !important;
+  font-size: 2em !important;
+  font-weight: normal !important;
+  text-align: center !important;
+  padding: 16px 0 !important;
+  margin-bottom: 16px !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7) !important;
+  border-bottom: 1px solid rgba(246, 215, 74, 0.3) !important;
+}
+
+/* Asegurarse de que los estilos de Material no sobrescriban nuestro título */
+::ng-deep .mat-mdc-dialog-title {
+  color: #ffffff !important;
+  font-family: 'Pirata One', cursive !important;
+}
+
+/* Estilo específico para la clase deck-title */
+.deck-title {
+  color: #ffffff !important;
+  font-family: 'Pirata One', cursive !important;
+  font-size: 2.2em !important;
+  letter-spacing: 1px !important;
+}
+
+h3 {
+  color: var(--title-color);
+  margin: 16px 0 10px;
+  font-family: 'Pirata One', cursive;
+  font-weight: normal;
+  font-size: 1.4em;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.deck-details-section {
+  margin-bottom: 24px;
+}
+
+.selected-items-section {
+  margin-bottom: 24px;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  border: 2px solid rgba(246, 215, 74, 0.7);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  
+  h3 {
+    color: #f6d74a;
+    margin-bottom: 15px;
+    font-size: 1.6em;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+    border-bottom: 2px solid rgba(246, 215, 74, 0.5);
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    
+    &::before {
+      content: '★';
+      margin-right: 10px;
+      font-size: 0.9em;
+      color: #ff9d6c;
+    }
+  }
+}
+
+.selected-cards, .selected-relics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  
+  /* Estilo para la barra de desplazamiento */
+  &::-webkit-scrollbar {
+    width: 6px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(246, 215, 74, 0.3);
+    border-radius: 3px;
+    
+    &:hover {
+      background-color: rgba(246, 215, 74, 0.5);
+    }
+  }
+}
+
+.selected-item {
+  flex: 0 0 calc(50% - 12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 10px 8px 10px 16px;
+  border-radius: 16px;
+  margin: 0;
+  border: 1px solid rgba(246, 215, 74, 0.4);
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  
+  /* Efecto de borde brillante */  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    padding: 1px;
+    background: linear-gradient(45deg, rgba(246, 215, 74, 0.4), rgba(255, 157, 108, 0.4), rgba(246, 215, 74, 0.4));
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  &:hover::after {
+    opacity: 1;
+  }
+  
+  /* Asegurar que el botón de cerrar sea visible */
+  button[color="warn"] {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    margin-left: 4px;
+    
+    .mat-icon {
+      color: #ff6b6b !important;
+    }
+    
+    &:hover {
+      background-color: rgba(255, 0, 0, 0.2) !important;
+      
+      .mat-icon {
+        color: #ffffff !important;
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    flex: 0 0 100%;
+  }
+}
+
+.selected-item-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  max-width: calc(100% - 40px);
+}
+
+.item-name {
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  font-size: 1.1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.item-details {
+  font-size: 0.85em;
+  color: #d0d0d0;
+  font-style: italic;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+}
+
+.empty-selection {
+  font-style: italic;
+  color: #c0c0c0;
+  padding: 12px;
+  width: 100%;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 1px dashed rgba(246, 215, 74, 0.3);
+}
+
+.selectors-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.selector-group {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(246, 215, 74, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  
+  h3 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 1.5em;
+    
+    &::before {
+      content: '✧';
+      margin-right: 8px;
+      color: var(--accent-color);
+    }
+  }
+}
+
+.selector-list {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 15px;
+  border: 1px solid rgba(246, 215, 74, 0.3);
+  border-radius: 8px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
+  
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(246, 215, 74, 0.3);
+    border-radius: 4px;
+    
+    &:hover {
+      background-color: rgba(246, 215, 74, 0.5);
+    }
+  }
+}
+
+.selector-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(246, 215, 74, 0.2);
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: rgba(0, 0, 0, 0.2);
+  
+  &:hover {
+    background-color: rgba(246, 215, 74, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  &.selected {
+    background-color: rgba(246, 215, 74, 0.15);
+    border-left: 3px solid var(--title-color);
+    padding-left: 13px;
+  }
+  
+  .item-name {
+    color: #ffffff;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    font-size: 1.05em;
+    letter-spacing: 0.5px;
+  }
+  
+  .item-details {
+    color: #d9d9d9;
+    font-weight: 400;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+  }
+}
+
+.selector-item-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.item-cost {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: #fff !important;
+  background: #555;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+.no-items-found {
+  padding: 16px;
+  color: #888;
+  text-align: center;
+  font-style: italic;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+// Card colors
+.red {
+  .item-name {
+    color: #ff8f8f;
+    text-shadow: 1px 1px 2px rgba(255, 0, 0, 0.4);
+  }
+  
+  &.selected, &:hover {
+    background-color: rgba(255, 107, 107, 0.15) !important;
+    border-color: rgba(255, 107, 107, 0.5) !important;
+  }
+}
+
+.green {
+  .item-name {
+    color: #7deba8;
+    text-shadow: 1px 1px 2px rgba(0, 128, 0, 0.4);
+  }
+  
+  &.selected, &:hover {
+    background-color: rgba(81, 207, 102, 0.15) !important;
+    border-color: rgba(81, 207, 102, 0.5) !important;
+  }
+}
+
+.blue {
+  .item-name {
+    color: #73b8ff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 255, 0.4);
+  }
+  
+  &.selected, &:hover {
+    background-color: rgba(51, 154, 240, 0.15) !important;
+    border-color: rgba(51, 154, 240, 0.5) !important;
+  }
+}
+
+.purple {
+  .item-name {
+    color: #e5a9ff;
+    text-shadow: 1px 1px 2px rgba(128, 0, 128, 0.4);
+  }
+  
+  &.selected, &:hover {
+    background-color: rgba(204, 93, 232, 0.15) !important;
+    border-color: rgba(204, 93, 232, 0.5) !important;
+  }
+}
+
+.colorless {
+  .item-name {
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(100, 100, 100, 0.4);
+  }
+  
+  &.selected, &:hover {
+    background-color: rgba(206, 212, 218, 0.15) !important;
+    border-color: rgba(206, 212, 218, 0.5) !important;
+  }
+}
+
+mat-dialog-actions {
+  margin-top: 24px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(246, 215, 74, 0.3);
+  display: flex;
+  gap: 16px;
+  
+  button {
+    font-family: 'Pirata One', cursive !important;
+    font-size: 1.2rem !important;
+    letter-spacing: 0.5px !important;
+    padding: 8px 24px !important;
+    height: 44px !important;
+    min-width: 140px !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7) !important;
+    transition: all 0.3s !important;
+    
+    &.save-button, &[color="primary"] {
+      background-color: var(--button-background) !important;
+      color: var(--title-color) !important;
+      border: 2px solid var(--title-color) !important;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+      
+      &:hover:not([disabled]) {
+        background-color: var(--button-hover) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4) !important;
+      }
+      
+      &[disabled] {
+        opacity: 0.6 !important;
+        border-color: rgba(246, 215, 74, 0.4) !important;
+      }
+    }
+    
+    &.cancel-button, &.mat-mdc-button {
+      background-color: rgba(0, 0, 0, 0.3) !important;
+      color: #e0e0e0 !important;
+      border: 1px solid #666 !important;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        color: #fff !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3) !important;
+      }
+    }
+  }
+}
+
+/* Aplicar específicamente a los botones del diálogo usando ::ng-deep */
+::ng-deep .deck-editor {
+  .mat-mdc-dialog-actions {
+    button.mat-mdc-button {
+      background-color: rgba(0, 0, 0, 0.3) !important;
+      color: #e0e0e0 !important;
+      border: 1px solid #666 !important;
+      font-family: 'Pirata One', cursive !important;
+      font-size: 1.2rem !important;
+      letter-spacing: 0.5px !important;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7) !important;
+      transition: all 0.3s !important;
+      padding: 8px 24px !important;
+      height: 44px !important;
+      min-width: 140px !important;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        color: #fff !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3) !important;
+      }
+    }
+    
+    button.mat-mdc-raised-button[color="primary"] {
+      background-color: var(--button-background) !important;
+      color: var(--title-color) !important;
+      border: 2px solid var(--title-color) !important;
+      font-family: 'Pirata One', cursive !important;
+      font-size: 1.2rem !important;
+      letter-spacing: 0.5px !important;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7) !important;
+      transition: all 0.3s !important;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+      
+      &:hover:not([disabled]) {
+        background-color: var(--button-hover) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4) !important;
+      }
+    }
+  }
+}
+
+// Estilos para los campos de entrada
+::ng-deep .deck-editor {
+  .mat-mdc-form-field {
+    width: 100%;
+    margin-bottom: 16px;
+    min-height: 65px; /* Asegurar altura suficiente para evitar superposición */
+    
+    .mat-mdc-text-field-wrapper {
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+      border: 1px solid rgba(246, 215, 74, 0.3);
+      padding: 2px 4px;
+    }
+    
+    .mat-mdc-form-field-flex {
+      padding: 0 10px;
+    }    input.mat-mdc-input-element, 
+    textarea.mat-mdc-input-element {
+      color: #ffffff;
+      font-family: 'Roboto', sans-serif;
+      caret-color: var(--accent-color);
+      font-size: 1rem;
+      font-weight: 500;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    }
+    
+    ::placeholder {
+      color: #b3b3b3;
+      opacity: 1;
+    }
+    
+    :-ms-input-placeholder {
+      color: #b3b3b3;
+    }
+    
+    ::-ms-input-placeholder {
+      color: #b3b3b3;
+    }
+      .mat-mdc-form-field-label, 
+    .mat-form-field-label,
+    .mdc-floating-label,
+    label.mdc-floating-label--float-above {
+      color: #f5f5f5 !important;
+      font-weight: 500;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    }
+    
+    .mat-mdc-form-field-underline {
+      background-color: rgba(246, 215, 74, 0.3);
+    }
+    
+    &.mat-focused {
+      .mat-mdc-text-field-wrapper {
+        border-color: var(--accent-color);
+      }
+    }
+  }
+  
+  .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+    color: #f5f5f5 !important;
+  }
+
+  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: rgba(0, 0, 0, 0.3);
+    
+    .mdc-line-ripple::before,
+    .mdc-line-ripple::after {
+      border-bottom-color: rgba(246, 215, 74, 0.5);
+    }
+  }
+
+  .mdc-text-field--focused {
+    .mdc-floating-label {
+      color: var(--accent-color) !important;
+    }
+  }
+  
+  .mat-mdc-form-field-subscript-wrapper {
+    color: #e0e0e0;
+  }
+  
+  .mat-mdc-form-field-error {
+    color: #ff6b6b;
+  }
+  
+  .mat-mdc-form-field-hint {
+    color: #aaaaaa;
+  }
+  
+  /* Asegura que el texto del campo de entrada sea visible durante la edición */
+  .mat-mdc-input-element::selection {
+    background-color: rgba(246, 215, 74, 0.3);
+  }
+}
+
+/* Estilos específicos para las clases personalizadas */
+.custom-input {
+  margin-bottom: 16px;
+}
+
+::ng-deep .custom-input {
+  .light-label {
+    color: #f5f5f5 !important;
+    font-weight: 500;
+  }
+  
+  .light-input {
+    color: #ffffff !important;
+    background-color: transparent;
+  }
+  
+  /* Sobrescribe los estilos inline que Material puede estar aplicando */
+  .mdc-floating-label {
+    color: #f5f5f5 !important;
+  }
+  
+  .mdc-text-field--focused .mdc-floating-label {
+    color: var(--accent-color) !important;
+  }
+  
+  /* Estilo para los campos de texto */
+  .mat-mdc-form-field-infix {
+    color: #ffffff;
+  }
+    /* Mejorar la visibilidad de los campos de entrada */
+  .mdc-text-field:not(.mdc-text-field--disabled) {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(246, 215, 74, 0.3) !important;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  
+  .mdc-floating-label--float-above {
+    transform: translateY(-25px) scale(0.75) !important;
+  }
+  
+  /* Evitar superposición del campo de búsqueda */
+  input.mat-mdc-input-element {
+    margin-top: 8px;
+  }
+  
+  /* Asegurar que los botones de sufijo (como el botón de cerrar) sean visibles */
+  .mat-icon {
+    color: #d9d9d9;
+    
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}
+
+/* Estilos específicos para los campos de búsqueda */
+.selector-group .mat-mdc-form-field {
+  margin-bottom: 15px;
+  
+  ::ng-deep {
+    .mdc-text-field {
+      background-color: rgba(255, 255, 255, 0.05) !important;
+      border-color: rgba(246, 215, 74, 0.4) !important;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.08) !important;
+        border-color: rgba(246, 215, 74, 0.5) !important;
+      }
+      
+      &:focus-within {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border-color: var(--accent-color) !important;
+        box-shadow: 0 0 8px rgba(255, 157, 108, 0.3);
+      }
+    }
+    
+    .mdc-floating-label {
+      color: #ffffff !important;
+      font-weight: 500;
+    }
+    
+    input.mat-mdc-input-element {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      color: #ffffff;
+    }
+  }
+}
+
+// Estilo específico para los colores de las cartas en la sección de seleccionados
+.selected-item {
+  .red {
+    color: #ff9e9e !important;
+    text-shadow: 1px 1px 2px rgba(255, 0, 0, 0.5) !important;
+  }
+  
+  .green {
+    color: #8df5b7 !important;
+    text-shadow: 1px 1px 2px rgba(0, 128, 0, 0.5) !important;
+  }
+  
+  .blue {
+    color: #8cc9ff !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 255, 0.5) !important;
+  }
+  
+  .purple {
+    color: #e9b6ff !important;
+    text-shadow: 1px 1px 2px rgba(128, 0, 128, 0.5) !important;
+  }
+  
+  .colorless {
+    color: #ffffff !important;
+    text-shadow: 1px 1px 2px rgba(100, 100, 100, 0.5) !important;
+  }
+  
+  button[color="warn"] {
+    color: #ff6b6b !important;
+    
+    &:hover {
+      color: #ff4d4d !important;
+      background-color: rgba(255, 0, 0, 0.1) !important;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .selectors-section {
+    grid-template-columns: 1fr;
+  }
+}

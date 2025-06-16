@@ -1,0 +1,37 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1 class="app-title">Deck The Spire</h1>
+    <div class="header-content">
+      <nav class="app-nav">
+        <button class="nav-button" routerLink="/cards" routerLinkActive="active">Cards</button>
+        <button class="nav-button" routerLink="/decks" routerLinkActive="active">Decks</button>
+        <button class="nav-button" routerLink="/relics" routerLinkActive="active">Relics</button>
+        <button class="nav-button" routerLink="/keywords" routerLinkActive="active">Keywords</button>
+      </nav>
+      <div class="user-actions">
+        <ng-container *ngIf="isLoggedIn; else loginButtons">
+          <div class="user-info">
+            <span class="welcome-msg">Welcome, </span>
+            <button class="user-button" routerLink="/profile">
+              <img [src]="userAvatar || 'assets/default-avatar.png'" alt="User Avatar" class="avatar-small">
+              {{ username }}
+            </button>
+          </div>
+        </ng-container>
+        <ng-template #loginButtons>
+          <button class="user-button" routerLink="/login">Login</button>
+          <button class="user-button register" routerLink="/register">Register</button>
+        </ng-template>
+      </div>
+    </div>
+  </header>
+    <div class="app-content">
+    <div class="router-container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  
+  <footer class="app-footer">
+    <p>&copy; 2025 Deck The Spire - Un proyecto inspirado en Slay the Spire</p>
+  </footer>
+</div>

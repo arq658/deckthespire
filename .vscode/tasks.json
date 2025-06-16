@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start Angular Frontend",
+			"type": "shell",
+			"command": "cd d:/Workspace/DeckTheSpire/front && npm run start",
+			"problemMatcher": [],
+			"group": "test",
+			"isBackground": true
+		}
+	]
+}

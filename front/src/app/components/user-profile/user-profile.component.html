@@ -1,0 +1,76 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <h2>My Profile</h2>
+    
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+
+    <div *ngIf="success" class="success-message">
+      {{ success }}
+    </div>      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">      <div class="user-avatar" (click)="openAvatarSelector()">        
+        <!-- Usar un ngIf para forzar la recreación del elemento img cuando cambia el avatar -->
+        <ng-container *ngIf="currentUser?.avatarUrl !== undefined">
+          <img [src]="getAvatarAPIUrl(currentUser?.avatarUrl || '')" 
+               alt="User Avatar"
+               (error)="handleAvatarError($event)"
+               id="avatar-image">
+        </ng-container>
+        <div class="avatar-change-overlay">
+          <span>Change</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input 
+          type="text" 
+          id="username" 
+          formControlName="username" 
+          class="form-control" 
+          [ngClass]="{ 'is-invalid': submitted && f['username'].errors }"
+        />
+        <div *ngIf="submitted && f['username'].errors" class="invalid-feedback">
+          <div *ngIf="f['username'].errors['required']">Username is required</div>
+          <div *ngIf="f['username'].errors['minlength']">Username must be at least 3 characters</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          formControlName="email" 
+          class="form-control" 
+          [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+        />
+        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+          <div *ngIf="f['email'].errors['required']">Email is required</div>
+          <div *ngIf="f['email'].errors['email']">Email must be valid</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="displayName">Display Name</label>
+        <input 
+          type="text" 
+          id="displayName" 
+          formControlName="displayName" 
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" [disabled]="loading" class="update-btn">
+          <span *ngIf="loading" class="spinner"></span>
+          <span *ngIf="!loading">Update Profile</span>
+        </button>
+      </div>
+    </form>
+
+    <div class="logout-section">
+      <button (click)="logout()" class="logout-btn">Logout</button>
+    </div>
+  </div>
+</div>

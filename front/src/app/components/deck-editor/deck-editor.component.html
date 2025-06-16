@@ -1,0 +1,137 @@
+<div class="deck-editor">
+  <h2 mat-dialog-title class="deck-title">{{ deck.id ? 'Edit Deck' : 'Create New Deck' }}</h2>
+  
+  <div mat-dialog-content>    <!-- Deck Details Form -->
+    <div class="deck-details-section">
+      <mat-form-field appearance="fill" class="full-width custom-input">
+        <mat-label class="light-label">Deck Name</mat-label>
+        <input matInput [(ngModel)]="deck.name" required placeholder="Enter a name for your deck" class="light-input">
+      </mat-form-field>
+      
+      <mat-form-field appearance="fill" class="full-width custom-input">
+        <mat-label class="light-label">Description</mat-label>
+        <textarea matInput [(ngModel)]="deck.description" placeholder="Enter a description for your deck" rows="3" class="light-input"></textarea>
+      </mat-form-field>
+      
+      <mat-form-field appearance="fill" class="full-width custom-input">
+        <mat-label class="light-label">Character</mat-label>
+        <mat-select [(ngModel)]="deck.characterId" placeholder="Select a character" class="light-input">
+          @for (character of availableCharacters; track character.id) {
+            <mat-option [value]="character.id">
+              {{ character.name }} ({{ character.startingHp }} HP)
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Selected Cards & Relics Section -->
+    <div class="selected-items-section">
+      <h3>Selected Cards ({{ selectedCardIds.length }})</h3>
+      <div class="selected-cards">
+        @for (cardId of selectedCardIds; track cardId) {
+          <div class="selected-item" *ngIf="getCardById(cardId) as card">
+            <div class="selected-item-content">
+              <span class="item-name" [ngClass]="card.color.toLowerCase()">{{ card.name }}</span>
+              <span class="item-details">({{ card.card_type }} - {{ card.rarity }})</span>
+            </div>
+            <button mat-icon-button color="warn" (click)="removeCardFromDeck(cardId)" title="Remove card">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        } @empty {
+          <div class="empty-selection">No cards selected</div>
+        }
+      </div>
+
+      <h3>Selected Relics ({{ selectedRelicIds.length }})</h3>
+      <div class="selected-relics">
+        @for (relicId of selectedRelicIds; track relicId) {
+          <div class="selected-item" *ngIf="getRelicById(relicId) as relic">
+            <div class="selected-item-content">
+              <span class="item-name">{{ relic.name }}</span>
+              <span class="item-details">({{ relic.tier }})</span>
+            </div>
+            <button mat-icon-button color="warn" (click)="removeRelicFromDeck(relicId)" title="Remove relic">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        } @empty {
+          <div class="empty-selection">No relics selected</div>
+        }
+      </div>
+    </div>
+
+    <!-- Card & Relic Selector Section -->
+    <div class="selectors-section">
+      <!-- Cards Selector -->
+      <div class="selector-group">
+        <h3>Add Cards</h3>        <mat-form-field appearance="fill" class="full-width custom-input">
+          <mat-label class="light-label">Filter Cards</mat-label>
+          <input matInput [(ngModel)]="cardFilter" (input)="filterCards()" placeholder="Search by name, type, color, etc." class="light-input">
+          <button *ngIf="cardFilter" matSuffix mat-icon-button (click)="cardFilter=''; filterCards()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        
+        <div class="selector-list">
+          @for (card of filteredCards; track card.id) {
+            <div class="selector-item" [ngClass]="card.color.toLowerCase()" 
+                 [class.selected]="selectedCardIds.includes(card.id!)" 
+                 (click)="addCardToDeck(card.id!)">
+              <div class="selector-item-content">
+                <span class="item-cost">{{ card.cost }}</span>
+                <span class="item-name">{{ card.name }}</span>
+                <span class="item-details">{{ card.card_type }} - {{ card.rarity }}</span>
+              </div>
+              <button mat-icon-button *ngIf="!selectedCardIds.includes(card.id!)">
+                <mat-icon>add</mat-icon>
+              </button>
+              <button mat-icon-button color="accent" *ngIf="selectedCardIds.includes(card.id!)">
+                <mat-icon>check</mat-icon>
+              </button>
+            </div>
+          } @empty {
+            <div class="no-items-found">No cards match your filter</div>
+          }
+        </div>
+      </div>
+      
+      <!-- Relics Selector -->
+      <div class="selector-group">
+        <h3>Add Relics</h3>        <mat-form-field appearance="fill" class="full-width custom-input">
+          <mat-label class="light-label">Filter Relics</mat-label>
+          <input matInput [(ngModel)]="relicFilter" (input)="filterRelics()" placeholder="Search by name, tier, etc." class="light-input">
+          <button *ngIf="relicFilter" matSuffix mat-icon-button (click)="relicFilter=''; filterRelics()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        
+        <div class="selector-list">
+          @for (relic of filteredRelics; track relic.id) {
+            <div class="selector-item" 
+                 [class.selected]="selectedRelicIds.includes(relic.id!)" 
+                 (click)="addRelicToDeck(relic.id!)">
+              <div class="selector-item-content">
+                <span class="item-name">{{ relic.name }}</span>
+                <span class="item-details">{{ relic.tier }}</span>
+              </div>
+              <button mat-icon-button *ngIf="!selectedRelicIds.includes(relic.id!)">
+                <mat-icon>add</mat-icon>
+              </button>
+              <button mat-icon-button color="accent" *ngIf="selectedRelicIds.includes(relic.id!)">
+                <mat-icon>check</mat-icon>
+              </button>
+            </div>
+          } @empty {
+            <div class="no-items-found">No relics match your filter</div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+    <div mat-dialog-actions align="end">
+    <button mat-button class="cancel-button" data-custom-button="cancel" (click)="onCancelClick()">Cancel</button>
+    <button mat-raised-button color="primary" class="save-button" data-custom-button="save" (click)="onSaveClick()" [disabled]="!deck.name">Save Deck</button>
+  </div>
+</div>

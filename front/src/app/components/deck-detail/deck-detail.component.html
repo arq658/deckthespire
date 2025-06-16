@@ -1,0 +1,210 @@
+<div class="deck-detail-container">  <div *ngIf="loading" class="loading-spinner">
+    <mat-spinner diameter="40" color="accent"></mat-spinner>
+    <p>Loading deck details...</p>
+  </div>
+  
+  <div *ngIf="error" class="error-message">
+    <mat-icon>error_outline</mat-icon>
+    <p>{{ error }}</p>
+    <button mat-raised-button color="primary" (click)="backToDecks()">Back to Decks</button>
+  </div>
+  
+  <div *ngIf="!loading && !error && deck" class="deck-detail">
+    <div class="deck-header">
+      <div class="deck-header-left">
+        <button mat-icon-button (click)="backToDecks()" class="back-button" title="Back to decks list">
+          <mat-icon class="back-icon">arrow_back</mat-icon>
+        </button>
+        <h1>{{ deck.name }}</h1>
+      </div>
+      <div class="deck-actions" *ngIf="isOwner">
+        <button mat-raised-button color="primary" (click)="editDeck()" class="action-button">
+          <mat-icon class="action-icon">edit</mat-icon> <span>Edit Deck</span>
+        </button>
+        <button mat-raised-button color="warn" (click)="deleteDeck()" class="action-button">
+          <mat-icon class="action-icon">delete</mat-icon> <span>Delete</span>
+        </button>
+      </div>
+    </div>
+      <div class="deck-description" *ngIf="deck.description">
+      <p>{{ deck.description }}</p>
+    </div>
+    
+    <!-- Character Information -->
+    <mat-card class="character-card" *ngIf="deckCharacter">
+      <mat-card-content>
+        <div class="character-info">
+          <div class="character-header">
+            <h3>{{ deckCharacter.name }}</h3>
+            <span class="character-hp">{{ deckCharacter.startingHp }} HP</span>
+          </div>
+          <p class="character-description">{{ deckCharacter.description }}</p>
+          <div class="character-details">
+            <div class="starting-relic">
+              <strong>Starting Relic:</strong> {{ deckCharacter.startingRelic }}
+            </div>
+            <div class="starting-deck">
+              <strong>Starting Deck:</strong> {{ deckCharacter.startingDeck.join(', ') }}
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    
+    <!-- Deck Statistics -->
+    <mat-card class="stats-card">
+      <mat-card-content>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-value">{{ deckCards.length }}</div>
+            <div class="stat-label">Total Cards</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ getAttackCards().length }}</div>
+            <div class="stat-label">Attacks</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ getSkillCards().length }}</div>
+            <div class="stat-label">Skills</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ getPowerCards().length }}</div>
+            <div class="stat-label">Powers</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">{{ deckRelics.length }}</div>
+            <div class="stat-label">Relics</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    
+    <!-- Cards and Relics Tabs -->
+    <mat-tab-group animationDuration="0ms" color="primary">
+      <mat-tab label="Cards">
+        <div class="cards-section">
+          <div *ngIf="deckCards.length === 0" class="empty-message">
+            No cards added to this deck yet.
+          </div>
+          
+          <ng-container *ngIf="deckCards.length > 0">
+            <!-- Attacks -->
+            <div class="card-type-section" *ngIf="getAttackCards().length > 0">
+              <h3>Attacks ({{ getAttackCards().length }})</h3>
+              <div class="cards-grid">
+                @for (card of getAttackCards(); track card.id) {
+                  <div class="card-item" [ngClass]="card.color.toLowerCase()">
+                    <div class="card-header">
+                      <div class="card-cost">{{ card.cost }}</div>
+                      <h4 class="card-name">{{ card.name }}</h4>
+                    </div>
+                    <div class="card-image" *ngIf="card.image">
+                      <img [src]="card.image" [alt]="card.name">
+                    </div>
+                    <div class="card-details">
+                      <p class="card-type-rarity">{{ card.card_type }} - {{ card.rarity }}</p>
+                      <div class="card-description" [innerHTML]="card.keyword_description || card.description"></div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+            
+            <!-- Skills -->
+            <div class="card-type-section" *ngIf="getSkillCards().length > 0">
+              <h3>Skills ({{ getSkillCards().length }})</h3>
+              <div class="cards-grid">
+                @for (card of getSkillCards(); track card.id) {
+                  <div class="card-item" [ngClass]="card.color.toLowerCase()">
+                    <div class="card-header">
+                      <div class="card-cost">{{ card.cost }}</div>
+                      <h4 class="card-name">{{ card.name }}</h4>
+                    </div>
+                    <div class="card-image" *ngIf="card.image">
+                      <img [src]="card.image" [alt]="card.name">
+                    </div>
+                    <div class="card-details">
+                      <p class="card-type-rarity">{{ card.card_type }} - {{ card.rarity }}</p>
+                      <div class="card-description" [innerHTML]="card.keyword_description || card.description"></div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+            
+            <!-- Powers -->
+            <div class="card-type-section" *ngIf="getPowerCards().length > 0">
+              <h3>Powers ({{ getPowerCards().length }})</h3>
+              <div class="cards-grid">
+                @for (card of getPowerCards(); track card.id) {
+                  <div class="card-item" [ngClass]="card.color.toLowerCase()">
+                    <div class="card-header">
+                      <div class="card-cost">{{ card.cost }}</div>
+                      <h4 class="card-name">{{ card.name }}</h4>
+                    </div>
+                    <div class="card-image" *ngIf="card.image">
+                      <img [src]="card.image" [alt]="card.name">
+                    </div>
+                    <div class="card-details">
+                      <p class="card-type-rarity">{{ card.card_type }} - {{ card.rarity }}</p>
+                      <div class="card-description" [innerHTML]="card.keyword_description || card.description"></div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+            
+            <!-- Other Cards -->
+            <div class="card-type-section" *ngIf="getOtherCards().length > 0">
+              <h3>Other ({{ getOtherCards().length }})</h3>
+              <div class="cards-grid">
+                @for (card of getOtherCards(); track card.id) {
+                  <div class="card-item" [ngClass]="card.color.toLowerCase()">
+                    <div class="card-header">
+                      <div class="card-cost">{{ card.cost }}</div>
+                      <h4 class="card-name">{{ card.name }}</h4>
+                    </div>
+                    <div class="card-image" *ngIf="card.image">
+                      <img [src]="card.image" [alt]="card.name">
+                    </div>
+                    <div class="card-details">
+                      <p class="card-type-rarity">{{ card.card_type }} - {{ card.rarity }}</p>
+                      <div class="card-description" [innerHTML]="card.keyword_description || card.description"></div>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </mat-tab>
+      
+      <!-- Relics Tab -->
+      <mat-tab label="Relics">
+        <div class="relics-section">
+          <div *ngIf="deckRelics.length === 0" class="empty-message">
+            No relics added to this deck yet.
+          </div>
+          
+          <div class="relics-grid" *ngIf="deckRelics.length > 0">
+            @for (relic of deckRelics; track relic.id) {
+              <div class="relic-item">
+                <div class="relic-header">
+                  <h4 class="relic-name">{{ relic.name }}</h4>
+                  <span class="relic-tier">{{ relic.tier }}</span>
+                </div>
+                <div class="relic-image" *ngIf="relic.image">
+                  <img [src]="relic.image" [alt]="relic.name">
+                </div>
+                <div class="relic-details">
+                  <p class="relic-description">{{ relic.description }}</p>
+                  <p class="relic-flavor" *ngIf="relic.flavor_text">{{ relic.flavor_text }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

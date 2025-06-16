@@ -1,0 +1,31 @@
+<div class="card-list-container">
+  <h2>Cards</h2>
+  
+  <div *ngIf="loading" class="loading-spinner">
+    Loading cards...
+  </div>
+  
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+  
+  <div class="card-grid" *ngIf="!loading && !error">
+    @for (card of cards; track card.id) {
+      <div class="card-item" [ngClass]="card.color.toLowerCase()">
+        <div class="card-header">
+          <span class="card-cost">{{ card.cost }}</span>
+          <h3 class="card-name">{{ card.name }}</h3>
+        </div>
+        <div class="card-image" *ngIf="card.image">
+          <img [src]="card.image" [alt]="card.name">
+        </div>        <div class="card-details">
+          <p class="card-type-rarity">{{ card.card_type }} - {{ card.rarity }}</p>
+          <div class="card-description" [innerHTML]="card.keyword_description || card.description" appKeywordTooltip></div>
+        </div>
+        <button class="add-card-btn" (click)="addCardToDeck(card)">Add to Deck</button>
+      </div>
+    } @empty {
+      <div class="no-cards-message">No cards available.</div>
+    }
+  </div>
+</div>

@@ -1,0 +1,56 @@
+services:
+  database:
+    image: postgres:15-alpine
+    container_name: deckthespire-database
+    environment:
+      - POSTGRES_DB=deckthespire
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=usuario
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - deckthespire-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d deckthespire"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  backend:
+    build: 
+      context: ./demo
+      dockerfile: Dockerfile
+    container_name: deckthespire-backend
+    ports:
+      - "8090:8090"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - SERVER_PORT=8090
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - deckthespire-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: deckthespire-frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+    networks:
+      - deckthespire-network
+    restart: unless-stopped
+
+networks:
+  deckthespire-network:
+
+volumes:
+  postgres_data:

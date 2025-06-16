@@ -1,0 +1,27 @@
+<div class="avatar-selector-container">
+  <h2 mat-dialog-title>Selecciona un Avatar</h2>
+  
+  <div mat-dialog-content>
+    <div *ngIf="isLoading" class="loading-spinner">
+      <mat-spinner diameter="40"></mat-spinner>
+      <span>Cargando avatares...</span>
+    </div>
+    
+    <div *ngIf="!isLoading" class="avatars-grid">
+      <div 
+        *ngFor="let avatar of (avatars$ | async)" 
+        class="avatar-option"
+        [class.selected]="selectedAvatar === avatar.url"
+        (click)="selectAvatar(avatar.url)">
+        <img [src]="avatar.url" [alt]="avatar.name" class="avatar-image">
+      </div>
+    </div>
+  </div>
+  
+  <div mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-raised-button color="primary" [disabled]="!selectedAvatar" (click)="onSave()">
+      Guardar
+    </button>
+  </div>
+</div>

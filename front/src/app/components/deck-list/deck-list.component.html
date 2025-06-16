@@ -1,0 +1,57 @@
+<div class="deck-list-container">
+  <div class="header-section">
+    <h2>My Decks</h2>
+    <button class="create-btn" (click)="openDeckEditor()">
+      <mat-icon>add</mat-icon> Create New Deck
+    </button>
+  </div>
+  
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div>
+    <div>Loading decks...</div>
+  </div>
+  
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+  
+  <div class="decks-grid" *ngIf="!loading && !error">
+    @for (deck of decks; track deck.id) {
+      <div class="deck-card" (click)="viewDeck(deck.id!)">
+        <div class="deck-card-header">
+          <h3 class="deck-name">{{ deck.name }}</h3>
+        </div>        <div class="deck-card-content">
+          <p class="deck-description">{{ deck.description || 'No description provided' }}</p>
+          <div class="deck-stats">
+            <div class="stat" *ngIf="deck.characterId">
+              <mat-icon>person</mat-icon>
+              <span>{{ getCharacterName(deck.characterId) }}</span>
+            </div>
+            <div class="stat">
+              <mat-icon>style</mat-icon>
+              <span>{{ deck.cards.length || 0 }} Cards</span>
+            </div>
+            <div class="stat">
+              <mat-icon>auto_awesome</mat-icon>
+              <span>{{ deck.relics?.length || 0 }} Relics</span>
+            </div>
+          </div>
+        </div><div class="deck-card-actions">
+          <button class="edit-btn" (click)="editDeck(deck, $event)">
+            <mat-icon>edit</mat-icon> <span>Edit</span>
+          </button>
+          <button class="delete-btn" (click)="deleteDeck(deck.id!, $event)">
+            <mat-icon>delete</mat-icon> <span>Delete</span>
+          </button>
+        </div>
+      </div>
+    } @empty {
+      <div class="no-decks-message">
+        <p>You don't have any decks yet.</p>
+        <button class="create-btn" (click)="openDeckEditor()">
+          Create Your First Deck
+        </button>
+      </div>
+    }
+  </div>
+</div>

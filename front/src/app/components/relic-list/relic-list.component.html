@@ -1,0 +1,32 @@
+<div class="relic-list-container">
+  <h2>Relics</h2>
+  
+  <div *ngIf="loading" class="loading-spinner">
+    Loading relics...
+  </div>
+  
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+  
+  <div class="relic-grid" *ngIf="!loading && !error">
+    @for (relic of relics; track relic.id) {
+      <div class="relic-item" [ngClass]="relic.pool ? relic.pool.toLowerCase() : ''">
+        <div class="relic-header">
+          <h3 class="relic-name">{{ relic.name }}</h3>
+          <span class="relic-tier">{{ relic.tier }}</span>
+        </div>
+        <div class="relic-image" *ngIf="relic.image">
+          <img [src]="relic.image" [alt]="relic.name">
+        </div>
+        <div class="relic-details">
+          <p class="relic-pool" *ngIf="relic.pool">Pool: {{ relic.pool }}</p>
+          <p class="relic-description">{{ relic.description }}</p>
+          <p class="relic-flavor-text">{{ relic.flavor_text }}</p>
+        </div>
+      </div>
+    } @empty {
+      <div class="no-relics-message">No relics available.</div>
+    }
+  </div>
+</div>

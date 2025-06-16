@@ -1,0 +1,319 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Roboto:wght@400;700&display=swap');
+
+:root {
+  --background-color: #1a1a24;
+  --menu-background: rgba(20, 20, 30, 0.85);
+  --title-color: #f6d74a;
+  --text-color: #e0e0e0;
+  --accent-color: #ff9d6c;
+  --button-background: #31292b;
+  --button-hover: #4a3a3d;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  background-image: url('https://images2.alphacoders.com/901/thumb-1920-901142.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--text-color);
+  font-family: 'Roboto', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Pirata One', cursive;
+  color: var(--title-color);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  margin-bottom: 0.5em;
+}
+
+button {
+  background-color: var(--button-background);
+  color: var(--text-color);
+  border: 2px solid var(--title-color);
+  padding: 8px 16px;
+  font-family: 'Pirata One', cursive;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 5px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+  background-color: var(--button-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  background-color: var(--menu-background);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
+  overflow: hidden;
+  border: 2px solid var(--title-color);
+}
+
+.card-header {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+  border-bottom: 2px solid var(--title-color);
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Material tooltip customization for keywords */
+.keyword-tooltip,
+.manual-tooltip {
+  font-size: 14px !important;
+  color: white !important;
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  border: 1px solid var(--title-color) !important;
+  max-width: 300px !important;
+  padding: 10px 14px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6) !important;
+  border-radius: 5px !important;
+  z-index: 1000 !important; /* Asegurar que aparezca por encima de otros elementos */
+  margin-bottom: 10px !important;
+  pointer-events: none !important; /* Para que no interfiera con otros elementos */
+}
+
+/* Estilos para el tooltip manual */
+.manual-tooltip {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.keyword-highlight:hover .manual-tooltip {
+  opacity: 1;
+  display: block !important;
+}
+
+/* Global tooltip para palabras clave */
+.global-tooltip {
+  position: fixed;
+  z-index: 10000;
+  background-color: rgba(0, 0, 0, 0.95);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 5px;
+  font-size: 14px;
+  pointer-events: none;
+  max-width: 300px;
+  border: 2px solid var(--title-color);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.5;
+  transition: opacity 0.2s ease;
+}
+
+.global-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--title-color) transparent transparent transparent;
+}
+
+/* Estilo para palabras clave resaltadas */
+.keyword-highlight {
+  color: var(--title-color);
+  font-weight: bold;
+  cursor: help;
+  text-decoration: underline dotted;
+  position: relative;
+  display: inline;
+  transition: text-shadow 0.2s ease;
+}
+
+.keyword-highlight:hover {
+  text-shadow: 0 0 5px rgba(246, 215, 74, 0.8);
+}
+
+/* Estilos para Material Icons */
+.mat-icon {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: middle;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Estilos específicos para iconos dentro de botones */
+button mat-icon {
+  margin-right: 4px;
+}
+
+/* Estilos para diálogos personalizados */
+.custom-dialog-container {
+  .mat-mdc-dialog-container {
+    padding: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: var(--menu-background) !important;
+  }
+  
+  .mdc-dialog__surface {
+    background-color: var(--menu-background) !important;
+    border: 2px solid var(--title-color);
+    border-radius: 10px !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+  }
+  
+  .mat-mdc-dialog-content {
+    max-height: 70vh;
+  }
+}
+
+/* Estilos globales para los mat-label y elementos de formulario Material */
+.mat-mdc-form-field .mdc-floating-label,
+.mat-form-field-label,
+.mat-mdc-form-field-label {
+  color: #f5f5f5 !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.mat-mdc-input-element,
+.mat-mdc-textarea-element {
+  color: #ffffff !important;
+}
+
+/* Asegurar que el texto sea visible en todos los diálogos */
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-color: transparent;
+  
+  .mdc-dialog__surface {
+    color: var(--text-color);
+  }
+}
+
+/* Estilos para los títulos de diálogos de Material */
+.mat-mdc-dialog-title {
+  color: #ffffff !important;
+  font-family: 'Pirata One', cursive !important;
+}
+
+.mdc-dialog__title {
+  color: #ffffff !important;
+}
+
+h2.mat-mdc-dialog-title {
+  color: #ffffff !important;
+}
+
+/* Estilos específicos para los botones en diálogos */
+.mat-mdc-dialog-actions button.mat-mdc-button {
+  font-family: 'Pirata One', cursive !important;
+  font-size: 1.2rem !important;
+  letter-spacing: 0.5px !important;
+  padding: 8px 24px !important;
+  height: 44px !important;
+  min-width: 140px !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7) !important;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #666 !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+.mat-mdc-dialog-actions button.mat-mdc-button:hover {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  color: #fff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.mat-mdc-dialog-actions button.mat-mdc-raised-button[color="primary"],
+.mat-mdc-dialog-actions button.save-button {
+  background-color: var(--button-background) !important;
+  color: var(--title-color) !important;
+  border: 2px solid var(--title-color) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+  font-family: 'Pirata One', cursive !important;
+  font-size: 1.2rem !important;
+  letter-spacing: 0.5px !important;
+}
+
+.mat-mdc-dialog-actions button.mat-mdc-raised-button[color="primary"]:hover,
+.mat-mdc-dialog-actions button.save-button:hover {
+  background-color: var(--button-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Selectores ultra-específicos usando atributos data */
+button[data-custom-button="cancel"] {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #666 !important;
+  font-family: 'Pirata One', cursive !important;
+  font-size: 1.2rem !important;
+  letter-spacing: 0.5px !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+button[data-custom-button="cancel"]:hover {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+  color: #fff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+button[data-custom-button="save"] {
+  background-color: var(--button-background) !important;
+  color: var(--title-color) !important;
+  border: 2px solid var(--title-color) !important;
+  font-family: 'Pirata One', cursive !important;
+  font-size: 1.2rem !important;
+  letter-spacing: 0.5px !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+button[data-custom-button="save"]:hover:not([disabled]) {
+  background-color: var(--button-hover) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4) !important;
+}

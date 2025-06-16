@@ -1,0 +1,158 @@
+# DeckTheSpire - Complete GitIgnore for Spring Boot + Angular Project
+
+# =============================================================================
+# BACKEND (Spring Boot / Maven) - demo/
+# =============================================================================
+
+# Maven
+demo/target/
+demo/.mvn/wrapper/maven-wrapper.jar
+!demo/**/src/main/**/target/
+!demo/**/src/test/**/target/
+
+# Spring Boot
+demo/HELP.md
+
+# IDE - IntelliJ IDEA
+demo/.idea/
+demo/*.iws
+demo/*.iml
+demo/*.ipr
+
+# IDE - Eclipse/STS
+demo/.apt_generated
+demo/.classpath
+demo/.factorypath
+demo/.project
+demo/.settings/
+demo/.springBeans
+demo/.sts4-cache
+
+# IDE - NetBeans
+demo/nbproject/private/
+demo/nbbuild/
+demo/dist/
+demo/nbdist/
+demo/.nb-gradle/
+demo/build/
+!demo/**/src/main/**/build/
+!demo/**/src/test/**/build/
+
+# IDE - VS Code
+demo/.vscode/
+
+# =============================================================================
+# FRONTEND (Angular / Node.js) - front/
+# =============================================================================
+
+# Compiled output
+front/dist/
+front/tmp/
+front/out-tsc/
+front/bazel-out/
+
+# Node.js
+front/node_modules/
+front/npm-debug.log
+front/yarn-error.log
+
+# Angular
+front/.angular/cache/
+front/.sass-cache/
+
+# Testing
+front/coverage/
+front/libpeerconnection.log
+front/testem.log
+front/typings/
+
+# Misc
+front/connect.lock
+
+# IDE - IntelliJ IDEA
+front/.idea/
+front/.project
+front/.classpath
+front/.c9/
+front/*.launch
+front/.settings/
+front/*.sublime-workspace
+
+# IDE - VS Code
+front/.vscode/*
+!front/.vscode/settings.json
+!front/.vscode/tasks.json
+!front/.vscode/launch.json
+!front/.vscode/extensions.json
+front/.history/*
+
+# =============================================================================
+# DOCKER & INFRASTRUCTURE
+# =============================================================================
+
+# Docker volumes and data
+postgres-data/
+docker-data/
+
+# Environment files with secrets
+.env.local
+.env.production
+.env.development
+*.env.backup
+
+# =============================================================================
+# SYSTEM & GENERAL
+# =============================================================================
+
+# Operating System
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Archives
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# =============================================================================
+# PROJECT SPECIFIC
+# =============================================================================
+
+# Keep important configuration files
+!demo/src/main/resources/application.properties
+!demo/src/main/resources/application-docker.properties
+!front/src/environments/
+!docker-compose.yml
+!demo/Dockerfile
+!front/Dockerfile
+!demo/pom.xml
+!front/package.json
+!front/angular.json
+!front/tsconfig*.json
+
+# Database backups (if any)
+*.sql.backup
+*.dump
+
+# Documentation builds
+docs/build/
